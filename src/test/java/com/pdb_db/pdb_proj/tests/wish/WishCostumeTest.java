@@ -26,7 +26,7 @@ public class WishCostumeTest
 
     @Test
     @Order(1)
-    void create_wish()
+    void createWish()
     {
         CostumeWishlist w = new CostumeWishlist("W",1,2);
         service.addNewCostumeWishlist(w);
@@ -41,27 +41,27 @@ public class WishCostumeTest
 
     @Test
     @Order(2)
-    void update_wish()
+    void updateWish()
     {
-        String novy_nazov = "novy nazov";
-        String stary_nazov = "W";
+        String new_name = "novy nazov";
+        String old_name = "W";
 
         CostumeWishlist w = new CostumeWishlist();
 
-        if(service.getCostumeWishlistByName(stary_nazov).isPresent())
+        if(service.getCostumeWishlistByName(old_name).isPresent())
         {
-            w = service.getCostumeWishlistByName(stary_nazov).get();
+            w = service.getCostumeWishlistByName(old_name).get();
         }
 
-        service.updateWishlist(w.getId(),novy_nazov,null,null);
-        w = service.getCostumeWishlistByName(novy_nazov).get();
+        service.updateWishlist(w.getId(),new_name,null,null);
+        w = service.getCostumeWishlistByName(new_name).get();
 
-        assertThat(w.getName().equals(novy_nazov)).isTrue();
-        assertThat(w.getName().equals(stary_nazov)).isFalse();
+        assertThat(w.getName().equals(new_name)).isTrue();
+        assertThat(w.getName().equals(old_name)).isFalse();
     }
     @Test
     @Order(3)
-    void get_wishes()
+    void getWishes()
     {
         List<CostumeWishlist> list = service.getCostumeWishlist();
         AtomicBoolean exists = new AtomicBoolean(false);
@@ -78,18 +78,18 @@ public class WishCostumeTest
 
     @Test
     @Order(4)
-    void delete_wish()
+    void deleteWish()
     {
-        String nazov = "novy nazov";
+        String name = "novy nazov";
         Integer id = 0;
         CostumeWishlist w = new CostumeWishlist();
 
         boolean exists = false;
 
-        if(repository.findCostumeWishlistByName(nazov).isPresent())
+        if(repository.findCostumeWishlistByName(name).isPresent())
         {
             exists = true;
-            w =repository.findCostumeWishlistByName(nazov).get();
+            w =repository.findCostumeWishlistByName(name).get();
             id = w.getId();
         }
         assertThat(exists).isTrue();
@@ -97,7 +97,7 @@ public class WishCostumeTest
         service.deleteCostumeWishlist(id);
 
         exists = false;
-        if(repository.findCostumeWishlistByName(nazov).isPresent())
+        if(repository.findCostumeWishlistByName(name).isPresent())
         {
             exists = true;
         }

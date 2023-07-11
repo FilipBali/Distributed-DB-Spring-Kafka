@@ -1,4 +1,4 @@
-package com.pdb_db.pdb_proj.tests.recenzia;
+package com.pdb_db.pdb_proj.tests.review;
 
 import com.pdb_db.pdb_proj.domain.accessory_review.AccessoryReview;
 import com.pdb_db.pdb_proj.domain.accessory_review.AccessoryReviewRepository;
@@ -8,22 +8,28 @@ import org.springframework.boot.test.context.SpringBootTest;
 
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 @SpringBootTest
-public class AccessoryRecenziaRepositoryTest
+public class AccessoryReviewRepositoryTest
 {
 
     @Autowired
     private AccessoryReviewRepository repository;
 
-    Integer uzivID = 1;
-    Integer uzivID2 = 15;
-    Integer doplnokID = 2;
-    Integer doplnokID2 = 5;
+    Integer customerId1 = 1;
+    Integer customerId2 = 15;
+    Integer accessoryId1 = 2;
+    Integer accessoryId2 = 5;
 
     @Test
-    void create_doplnok_recenzia()
+    void createAccessoryReview()
     {
 
-        AccessoryReview r = new AccessoryReview("Strasne super","Na jednotku",0,0,uzivID,doplnokID);
+        AccessoryReview r = new AccessoryReview(
+                "Strasne super",
+                "Na jednotku",
+                0,
+                0,
+                customerId1,
+                accessoryId1);
         repository.save(r);
 
         boolean exists = false;
@@ -34,31 +40,31 @@ public class AccessoryRecenziaRepositoryTest
     }
 
     @Test
-    void check_uzivId()
+    void checkCustomer()
     {
         boolean exists = false;
-        if(repository.findCustomerById(uzivID).isPresent())
+        if(repository.findCustomerById(customerId1).isPresent())
             exists = true;
 
         assertThat(exists).isTrue();
 
         exists = false;
-        if(repository.findCustomerById(uzivID2).isPresent())
+        if(repository.findCustomerById(customerId2).isPresent())
             exists = true;
         assertThat(exists).isFalse();
    }
 
     @Test
-    void check_doplnokId()
+    void checkAccessory()
     {
         boolean exists = false;
-        if(repository.findAccessoryById(doplnokID).isPresent())
+        if(repository.findAccessoryById(accessoryId1).isPresent())
             exists = true;
 
         assertThat(exists).isTrue();
 
         exists = false;
-        if(repository.findAccessoryById(doplnokID2).isPresent())
+        if(repository.findAccessoryById(accessoryId2).isPresent())
             exists = true;
         assertThat(exists).isFalse();
     }

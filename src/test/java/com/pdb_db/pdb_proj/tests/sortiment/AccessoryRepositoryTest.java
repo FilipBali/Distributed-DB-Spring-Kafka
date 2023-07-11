@@ -19,34 +19,39 @@ public class AccessoryRepositoryTest
     private AccessoryRepository repository;
 
     @Test
-    void create_doplnok()
+    void createAccessory()
     {
-        String nazov = "hreben";
+        String name = "hreben";
 
-        Accessory d = new Accessory(nazov,"jeden","plast","male",new Date(System.currentTimeMillis()));
+        Accessory d = new Accessory(
+                name,
+                "jeden",
+                "plast",
+                "male",
+                new Date(System.currentTimeMillis()));
         repository.save(d);
 
         boolean exists = false;
-        if(repository.findAccessoryByName(nazov).isPresent())
+        if(repository.findAccessoryByName(name).isPresent())
             exists = true;
 
         assertThat(exists).isTrue();
     }
 
     @Test
-    void no_doplnok_with_name()
+    void noAccessoryWithName()
     {
-        String nazov = "aaa";
+        String name = "aaa";
 
         boolean exists = false;
-        if(repository.findAccessoryByName(nazov).isPresent())
+        if(repository.findAccessoryByName(name).isPresent())
             exists = true;
 
         assertThat(exists).isFalse();
     }
 
     @Test
-    void doplnok_by_material()
+    void accessoryByMaterial()
     {
         String material = "saten";
 

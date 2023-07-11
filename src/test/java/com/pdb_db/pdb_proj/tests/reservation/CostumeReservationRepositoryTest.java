@@ -1,4 +1,4 @@
-package com.pdb_db.pdb_proj.tests.rezervacia;
+package com.pdb_db.pdb_proj.tests.reservation;
 
 import com.pdb_db.pdb_proj.domain.costume_reservation.CostumeReservation;
 import com.pdb_db.pdb_proj.domain.costume_reservation.CostumeReservationRepository;
@@ -13,17 +13,22 @@ import java.util.concurrent.atomic.AtomicBoolean;
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 
 @SpringBootTest
-public class CostumeRezervaciaRepositoryTest
+public class CostumeReservationRepositoryTest
 {
 
     @Autowired
     private CostumeReservationRepository repository;
 
     @Test
-    void create_rezervacia_no_user()
+    void createReservationNoUser()
     {
 
-        CostumeReservation r = new CostumeReservation(1,2, new Date(System.currentTimeMillis()),new Date(System.currentTimeMillis()),0);
+        CostumeReservation r = new CostumeReservation(
+                1,
+                2,
+                new Date(System.currentTimeMillis()),
+                new Date(System.currentTimeMillis()),
+                0);
         repository.save(r);
 
         boolean exists = false;
@@ -34,7 +39,7 @@ public class CostumeRezervaciaRepositoryTest
     }
 
     @Test
-    void get_all_reservations()
+    void getAllReservations()
     {
       List<CostumeReservation> list = repository.findAll();
 
@@ -52,7 +57,7 @@ public class CostumeRezervaciaRepositoryTest
     }
 
     @Test
-    void check_user()
+    void checkCustomer()
     {
         CostumeReservation r = repository.findById(1).get();
 

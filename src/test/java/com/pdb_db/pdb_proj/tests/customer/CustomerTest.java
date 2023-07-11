@@ -1,4 +1,4 @@
-package com.pdb_db.pdb_proj.tests.uzivatel;
+package com.pdb_db.pdb_proj.tests.customer;
 
 import com.pdb_db.pdb_proj.domain.customer.Customer;
 import com.pdb_db.pdb_proj.domain.customer.CustomerRepository;
@@ -26,9 +26,18 @@ public class CustomerTest
 
     @Test
     @Order(1)
-    void create_uzivatel()
+    void createCustomer()
     {
-        Customer customer = new Customer("Jarka","Mala","jarina@pdb.com","0911234567","Slovensko","Nitra", "Nabrezna", 9,91423);
+        Customer customer = new Customer(
+                "Jarka",
+                "Mala",
+                "jarina@pdb.com",
+                "0911234567",
+                "Slovensko",
+                "Nitra",
+                "Nabrezna",
+                9,
+                91423);
         service.addNewCustomer(customer);
 
         boolean exists = false;
@@ -40,7 +49,7 @@ public class CustomerTest
 
     @Test
     @Order(2)
-    void get_all_users()
+    void getAllCustomers()
     {
          List<Customer> list = service.getCustomer();
         AtomicBoolean exists = new AtomicBoolean(false);
@@ -56,47 +65,76 @@ public class CustomerTest
 
     @Test
     @Order(3)
-    void get_uzivatel()
+    void getCustomer()
     {
         String email = "jarina@pdb.com";
-        String meno = "Jarka";
-        String priezvisko = "Mala";
-        String stat = "Slovensko";
-        String mesto = "Nitra";
+        String name = "Jarka";
+        String surname = "Mala";
+        String state = "Slovensko";
+        String city = "Nitra";
 
         Customer u = repository.findCustomerByEmail(email).get();
 
         assertThat(u.getEmail().equals(email)).isTrue();
-        assertThat(u.getName().equals(meno)).isTrue();
-        assertThat(u.getSurname().equals(priezvisko)).isTrue();
-        assertThat(u.getState().equals(stat)).isTrue();
-        assertThat(u.getCity().equals(mesto)).isTrue();
+        assertThat(u.getName().equals(name)).isTrue();
+        assertThat(u.getSurname().equals(surname)).isTrue();
+        assertThat(u.getState().equals(state)).isTrue();
+        assertThat(u.getCity().equals(city)).isTrue();
 
     }
 
     @Test
     @Order(4)
-    void change_user()
+    void changeCustomer()
     {
         String email = "jarina@pdb.com";
-        String meno = "Jarka Amelia";
-        String priezvisko = "Mala";
-        String stat = "Maďarsko";
-        Integer cisloDomu = 532;
+        String name = "Jarka Amelia";
+        String surname = "Mala";
+        String state = "Maďarsko";
+        Integer house_number = 532;
 
         Customer u = repository.findCustomerByEmail(email).get();
 
-        service.updateCustomer(u.getId(),meno,null,null,null,null,null,null,null,null);
-        service.updateCustomer(u.getId(),null,priezvisko,null,null,stat,null,null,null,null);
-        service.updateCustomer(u.getId(),null,null,null,null,null,null,null,cisloDomu,null);
+        service.updateCustomer(
+                u.getId(),
+                name,
+                null,
+                null,
+                null,
+                null,
+                null,
+                null,
+                null,
+                null);
+
+        service.updateCustomer(
+                u.getId(),
+                null,surname,
+                null,
+                null,state,
+                null,null,
+                null,
+                null);
+
+        service.updateCustomer(
+                u.getId(),
+                null,
+                null,
+                null,
+                null,
+                null,
+                null,
+                null,
+                house_number,
+                null);
 
         u = repository.findCustomerByEmail(email).get();
 
         assertThat(u.getEmail().equals(email)).isTrue();
-        assertThat(u.getName().equals(meno)).isTrue();
-        assertThat(u.getSurname().equals(priezvisko)).isTrue();
-        assertThat(u.getState().equals(stat)).isTrue();
-        assertThat(u.getHouse_number().equals(cisloDomu)).isTrue();
+        assertThat(u.getName().equals(name)).isTrue();
+        assertThat(u.getSurname().equals(surname)).isTrue();
+        assertThat(u.getState().equals(state)).isTrue();
+        assertThat(u.getHouse_number().equals(house_number)).isTrue();
 
         assertThat(u.getName().equals("Jarka")).isFalse();
         assertThat(u.getState().equals("Slovensko")).isFalse();
@@ -105,7 +143,7 @@ public class CustomerTest
 
     @Test
     @Order(5)
-    void delete_user()
+    void deleteCustomer()
     {
         String email = "jarina@pdb.com";
         boolean exists = false;

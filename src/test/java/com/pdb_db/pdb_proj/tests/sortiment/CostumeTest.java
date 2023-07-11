@@ -26,15 +26,21 @@ public class CostumeTest
 
     @Test
     @Order(1)
-    void create_costume()
+    void createCostume()
     {
-        String nazov = "saty";
+        String name = "saty";
 
-        Costume k =  new Costume(nazov, "kostym","saten", "zenske", 40, new Date(System.currentTimeMillis()));
+        Costume k =  new Costume(
+                name,
+                "kostym",
+                "saten",
+                "zenske",
+                40,
+                new Date(System.currentTimeMillis()));
         service.addNewCostume(k);
 
         boolean exists = false;
-        if(repository.findCostumeByName(nazov).isPresent())
+        if(repository.findCostumeByName(name).isPresent())
             exists = true;
 
         assertThat(exists).isTrue();
@@ -42,7 +48,7 @@ public class CostumeTest
 
     @Test
     @Order(2)
-    void get_all_costumes()
+    void getAllCostumes()
     {
         List<Costume> list = service.getCostumes();
         AtomicBoolean exists = new AtomicBoolean(false);
@@ -58,7 +64,7 @@ public class CostumeTest
 
     @Test
     @Order(3)
-    void get_all_costumes_by_material()
+    void getAllCostumesByMaterial()
     {
         String material = "saten";
 
@@ -77,49 +83,49 @@ public class CostumeTest
 
     @Test
     @Order(4)
-    void update_costume()
+    void updateCostume()
     {
-        String nazov = "saty";
-        String popis = "novy popis";
+        String name = "saty";
+        String description = "novy popis";
         String material = "brokat";
 
         Costume k = new Costume();
         boolean exist = false;
 
-        if (service.getCostumeByName(nazov).isPresent())
+        if (service.getCostumeByName(name).isPresent())
         {
-            k = service.getCostumeByName(nazov).get();
+            k = service.getCostumeByName(name).get();
             exist = true;
         }
         assertThat(exist).isTrue();
 
-        //Kostym update
-        service.updateCostume(k.getId(),null,popis,material,null,34,null);
+        //Costume update
+        service.updateCostume(k.getId(),null,description,material,null,34,null);
 
-        //Kostym is updated
-        assertThat(service.getCostumeById(k.getId()).getName().equals(nazov)).isTrue();
+        //Costume is updated
+        assertThat(service.getCostumeById(k.getId()).getName().equals(name)).isTrue();
         assertThat(service.getCostumeById(k.getId()).getMaterial().equals(material)).isTrue();
-        assertThat(service.getCostumeById(k.getId()).getDescription().equals(popis)).isTrue();
+        assertThat(service.getCostumeById(k.getId()).getDescription().equals(description)).isTrue();
         assertThat(service.getCostumeById(k.getId()).getSize_number().equals(40)).isFalse();
     }
 
     @Test
     @Order(5)
-    void get_concrete_costume()
+    void getCostume()
     {
-        String nazov = "saty";
+        String name = "saty";
         Costume k = new Costume();
 
-        //Kostym exists by name
+        //Costume exists by name
         boolean exists = false;
-        if(repository.findCostumeByName(nazov).isPresent())
+        if(repository.findCostumeByName(name).isPresent())
         {
             exists = true;
-            k = repository.findCostumeByName(nazov).get();
+            k = repository.findCostumeByName(name).get();
         }
         assertThat(exists).isTrue();
 
-        //Kostym exists by id
+        //Costume exists by id
         exists = false;
         if(repository.findById(k.getId()).isPresent())
             exists = true;
@@ -130,29 +136,27 @@ public class CostumeTest
 
     @Test
     @Order(6)
-    void delete_costume()
+    void deleteCostume()
     {
-        String nazov = "saty";
+        String name = "saty";
         boolean exist = false;
 
-        //Kostym still exists
+        //Costume still exists
         Costume k = new Costume();
 
-        if (service.getCostumeByName(nazov).isPresent())
+        if (service.getCostumeByName(name).isPresent())
         {
-            k = service.getCostumeByName(nazov).get();
+            k = service.getCostumeByName(name).get();
             exist = true;
         }
         assertThat(exist).isTrue();
 
-        Integer id = k.getId();
-
-        //Delete kostym
+        //Delete costume
         service.deleteCostume(k.getId());
 
-        //Kostym no longer exists
+        //Costume no longer exists
         exist = false;
-        if(repository.findCostumeByName(nazov).isPresent())
+        if(repository.findCostumeByName(name).isPresent())
             exist = true;
         assertThat(exist).isFalse();
     }

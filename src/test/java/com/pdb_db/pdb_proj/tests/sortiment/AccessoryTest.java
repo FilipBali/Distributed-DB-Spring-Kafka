@@ -27,15 +27,20 @@ public class AccessoryTest
 
     @Test
     @Order(1)
-    void create_accessory()
+    void createAccessory()
     {
-        String nazov = "hreben";
+        String name = "hreben";
 
-        Accessory d = new Accessory(nazov,"jeden","plast","male",new Date(System.currentTimeMillis()));
+        Accessory d = new Accessory(
+                name,
+                "jeden",
+                "plast",
+                "male",
+                new Date(System.currentTimeMillis()));
         repository.save(d);
 
         boolean exists = false;
-        if(repository.findAccessoryByName(nazov).isPresent())
+        if(repository.findAccessoryByName(name).isPresent())
             exists = true;
 
         assertThat(exists).isTrue();
@@ -43,7 +48,7 @@ public class AccessoryTest
 
     @Test
     @Order(2)
-    void get_all_accessories()
+    void getAllAccessories()
     {
         List<Accessory> list = service.getAccessories();
         AtomicBoolean exists = new AtomicBoolean(false);
@@ -59,7 +64,7 @@ public class AccessoryTest
 
     @Test
     @Order(3)
-    void get_all_accessories_by_material()
+    void getAllAccessoriesByMaterial()
     {
         String material = "plast";
 
@@ -80,47 +85,47 @@ public class AccessoryTest
     @Order(4)
     void update_doplnok()
     {
-        String nazov = "hreben";
-        String popis = "novy popis";
+        String name = "hreben";
+        String description = "novy popis";
         String material = "drevo";
 
         Accessory d = new Accessory();
         boolean exist = false;
 
-        if (service.getAccessoryByName(nazov).isPresent())
+        if (service.getAccessoryByName(name).isPresent())
         {
-            d = service.getAccessoryByName(nazov).get();
+            d = service.getAccessoryByName(name).get();
             exist = true;
         }
         assertThat(exist).isTrue();
 
-        //Doplnok  update
-        service.updateAccessory(d.getId(),null,popis,material,null,null);
+        //Accessory  update
+        service.updateAccessory(d.getId(),null,description,material,null,null);
 
-        //Doplnok is updated
-        assertThat(service.getAccessoryById(d.getId()).get().getName().equals(nazov)).isTrue();
+        //Accessory is updated
+        assertThat(service.getAccessoryById(d.getId()).get().getName().equals(name)).isTrue();
         assertThat(service.getAccessoryById(d.getId()).get().getMaterial().equals(material)).isTrue();
-        assertThat(service.getAccessoryById(d.getId()).get().getDescription().equals(popis)).isTrue();
+        assertThat(service.getAccessoryById(d.getId()).get().getDescription().equals(description)).isTrue();
     }
 
 
     @Test
     @Order(5)
-    void get_concrete_accessory()
+    void getAccessory()
     {
-        String nazov = "hreben";
+        String name = "hreben";
         Accessory d = new Accessory();
 
-        //Doplnok exists by name
+        //Accessory exists by name
         boolean exists = false;
-        if(repository.findAccessoryByName(nazov).isPresent())
+        if(repository.findAccessoryByName(name).isPresent())
         {
             exists = true;
-            d = repository.findAccessoryByName(nazov).get();
+            d = repository.findAccessoryByName(name).get();
         }
         assertThat(exists).isTrue();
 
-        //Doplnok exists by id
+        //Accessory exists by id
         exists = false;
         if(repository.findById(d.getId()).isPresent())
             exists = true;
@@ -130,12 +135,12 @@ public class AccessoryTest
 
     @Test
     @Order(6)
-    void delete_accessory()
+    void deleteAccessory()
     {
         String nazov = "hreben";
         boolean exist = false;
 
-        //Doplnok still exists
+        //Accessory still exists
         Accessory d = new Accessory();
 
         if (service.getAccessoryByName(nazov).isPresent())
@@ -145,12 +150,10 @@ public class AccessoryTest
         }
         assertThat(exist).isTrue();
 
-        Integer id = d.getId();
-
-        //Delete kostym
+        //Delete accessory
         service.deleteAccessory(d.getId());
 
-        //Kostym no longer exists
+        //Accessory no longer exists
         exist = false;
         if(repository.findAccessoryByName(nazov).isPresent())
             exist = true;

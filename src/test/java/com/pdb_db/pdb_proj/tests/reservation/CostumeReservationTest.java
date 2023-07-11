@@ -1,8 +1,8 @@
-package com.pdb_db.pdb_proj.tests.rezervacia;
+package com.pdb_db.pdb_proj.tests.reservation;
 
-import com.pdb_db.pdb_proj.domain.accessory_reservation.AccessoryReservation;
-import com.pdb_db.pdb_proj.domain.accessory_reservation.AccessoryReservationRepository;
-import com.pdb_db.pdb_proj.domain.accessory_reservation.AccessoryReservationService;
+import com.pdb_db.pdb_proj.domain.costume_reservation.CostumeReservation;
+import com.pdb_db.pdb_proj.domain.costume_reservation.CostumeReservationRepository;
+import com.pdb_db.pdb_proj.domain.costume_reservation.CostumeReservationService;
 import org.junit.jupiter.api.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -15,19 +15,25 @@ import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 @SpringBootTest
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
-public class AccessoryRezervaciaTest {
+public class CostumeReservationTest
+{
     @Autowired
-    AccessoryReservationRepository repository;
+    CostumeReservationRepository repository;
 
     @Autowired
-    AccessoryReservationService service;
+    CostumeReservationService service;
 
 
     @Test
     @Order(1)
-    void create_reservation()
+    void createReservation()
     {
-        AccessoryReservation r = new AccessoryReservation(2,1,new Date(System.currentTimeMillis()), new Date(System.currentTimeMillis()), 1);
+        CostumeReservation r = new CostumeReservation(
+                2,
+                1,
+                new Date(System.currentTimeMillis()),
+                new Date(System.currentTimeMillis()),
+                1);
         repository.save(r);
 
         boolean exists = false;
@@ -39,10 +45,10 @@ public class AccessoryRezervaciaTest {
 
     @Test
     @Order(2)
-    void show_ongoing_reservations()
+    void showOngoingReservations()
     {
         Integer id = 3;
-        List<AccessoryReservation> list = service.getAllOngoing();
+        List<CostumeReservation> list = service.getAllOngoing();
 
         list.forEach( l->
                 {
@@ -55,7 +61,7 @@ public class AccessoryRezervaciaTest {
 
     @Test
     @Order(3)
-    void end_reservation()
+    void endReservation()
     {
         Integer id = 3;
 
@@ -65,17 +71,17 @@ public class AccessoryRezervaciaTest {
 
         assertThat(exists).isTrue();
 
-        service.updateAccessoryReservation(id,null,null,null,null,1);
+        service.updateKostymRezervacia(id,null,null,null,null,1);
 
         assertThat( repository.findById(id).get().getIsReturned().equals(1)).isTrue();
     }
 
     @Test
     @Order(4)
-    void show_finished_rservations()
+    void showFinishedReservations()
     {
         Integer id = 3;
-        List<AccessoryReservation> list = service.getAllOngoing();
+        List<CostumeReservation> list = service.getAllOngoing();
 
         list.forEach( l->
                 {
@@ -88,7 +94,7 @@ public class AccessoryRezervaciaTest {
 
     @Test
     @Order(5)
-    void delete_reservation()
+    void deleteReservation()
     {
         Integer id = 3;
 
@@ -98,7 +104,7 @@ public class AccessoryRezervaciaTest {
 
         assertThat(exists).isTrue();
 
-        service.deleteAccessoryReservation(id);
+        service.deleteCostumeReservation(id);
 
         exists = false;
         if(repository.findById(id).isPresent())

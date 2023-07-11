@@ -1,4 +1,4 @@
-package com.pdb_db.pdb_proj.tests.uzivatel;
+package com.pdb_db.pdb_proj.tests.customer;
 
 import com.pdb_db.pdb_proj.domain.customer.Customer;
 import com.pdb_db.pdb_proj.domain.customer.CustomerRepository;
@@ -19,10 +19,19 @@ class CustomerRepositoryTests
 
     String email = "jarina@pdb.com";
     @Test
-    void create_user()
+    void createCustomer()
     {
 
-        Customer customer = new Customer("Jarka","Mala",email,"0911234567","Slovensko","Nitra", "Nabrezna", 9,91423);
+        Customer customer = new Customer(
+                "Jarka",
+                "Mala",
+                email,
+                "0911234567",
+                "Slovensko",
+                "Nitra",
+                "Nabrezna",
+                9,
+                91423);
         customerRepository.save(customer);
 
         boolean exists = false;
@@ -33,7 +42,7 @@ class CustomerRepositoryTests
     }
 
     @Test
-    void no_user_no_email()
+    void noCustomerNoEmail()
     {
         boolean exists = false;
         if(customerRepository.findCustomerByEmail("ABCDEF").isPresent())

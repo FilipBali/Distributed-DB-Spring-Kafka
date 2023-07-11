@@ -1,4 +1,4 @@
-package com.pdb_db.pdb_proj.tests.recenzia;
+package com.pdb_db.pdb_proj.tests.review;
 
 import com.pdb_db.pdb_proj.domain.costume_review.CostumeReview;
 import com.pdb_db.pdb_proj.domain.costume_review.CostumeReviewRepository;
@@ -8,22 +8,28 @@ import org.springframework.boot.test.context.SpringBootTest;
 
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 @SpringBootTest
-public class CostumeRecenziaRepositoryTest
+public class CostumeReviewRepositoryTest
 {
 
     @Autowired
     private CostumeReviewRepository repository;
 
-    Integer uzivID = 1;
-    Integer uzivID2 = 15;
-    Integer kostymID = 2;
-    Integer kostymID2 = 5;
+    Integer customerId1 = 1;
+    Integer customerId2 = 15;
+    Integer costumeId1 = 2;
+    Integer costumeId2 = 5;
 
     @Test
-    void create_kostym_recenzia()
+    void createCostumeReview()
     {
 
-        CostumeReview r = new CostumeReview("Strasne super","Na jednotku",0,0,1,1);
+        CostumeReview r = new CostumeReview(
+                "Strasne super",
+                "Na jednotku",
+                0,
+                0,
+                1,
+                1);
         repository.save(r);
 
         boolean exists = false;
@@ -34,31 +40,31 @@ public class CostumeRecenziaRepositoryTest
     }
 
     @Test
-    void check_uzivId()
+    void checkCustomer()
     {
         boolean exists = false;
-        if(repository.findCustomerById(uzivID).isPresent())
+        if(repository.findCustomerById(customerId1).isPresent())
             exists = true;
 
         assertThat(exists).isTrue();
 
         exists = false;
-        if(repository.findCustomerById(uzivID2).isPresent())
+        if(repository.findCustomerById(customerId2).isPresent())
             exists = true;
         assertThat(exists).isFalse();
     }
 
     @Test
-    void check_doplnokId()
+    void checkCostume()
     {
         boolean exists = false;
-        if(repository.findCostumeById(kostymID).isPresent())
+        if(repository.findCostumeById(costumeId1).isPresent())
             exists = true;
 
         assertThat(exists).isTrue();
 
         exists = false;
-        if(repository.findCostumeById(kostymID2).isPresent())
+        if(repository.findCostumeById(costumeId2).isPresent())
             exists = true;
         assertThat(exists).isFalse();
     }

@@ -1,4 +1,4 @@
-package com.pdb_db.pdb_proj.tests.rezervacia;
+package com.pdb_db.pdb_proj.tests.reservation;
 
 import com.pdb_db.pdb_proj.domain.accessory_reservation.AccessoryReservation;
 import com.pdb_db.pdb_proj.domain.accessory_reservation.AccessoryReservationRepository;
@@ -13,16 +13,21 @@ import java.util.concurrent.atomic.AtomicBoolean;
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 
 @SpringBootTest
-public class AccessoryRezervaciaRepositoryTest
+public class AccessoryReservationRepositoryTest
 {
     @Autowired
     AccessoryReservationRepository repository;
 
     @Test
-    void create_rezervacia_no_user()
+    void createReservationNoCustomer()
     {
 
-        AccessoryReservation r = new AccessoryReservation(2,1,new Date(System.currentTimeMillis()),new Date(System.currentTimeMillis()),0);
+        AccessoryReservation r = new AccessoryReservation(2,
+                1,
+                new Date(System.currentTimeMillis()),
+                new Date(System.currentTimeMillis()),
+                0);
+
         repository.save(r);
 
         boolean exists = false;
@@ -33,7 +38,7 @@ public class AccessoryRezervaciaRepositoryTest
     }
 
     @Test
-    void get_all_reservations()
+    void getAllReservations()
     {
         List<AccessoryReservation> list = repository.findAll();
 
@@ -51,7 +56,7 @@ public class AccessoryRezervaciaRepositoryTest
     }
 
     @Test
-    void check_user()
+    void checkCustomer()
     {
         AccessoryReservation r = repository.findById(1).get();
 

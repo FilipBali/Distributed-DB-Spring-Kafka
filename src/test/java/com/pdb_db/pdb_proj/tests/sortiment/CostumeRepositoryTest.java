@@ -19,34 +19,40 @@ public class CostumeRepositoryTest
     private CostumeRepository repository;
 
     @Test
-    void create_kostym()
+    void createCostume()
     {
-        String nazov = "saty4";
+        String name = "saty4";
 
-        Costume k =  new Costume(nazov, "kostym","saten", "zenske", 40, new Date(System.currentTimeMillis()));
+        Costume k =  new Costume(
+                name,
+                "kostym",
+                "saten",
+                "zenske",
+                40,
+                new Date(System.currentTimeMillis()));
         repository.save(k);
 
         boolean exists = false;
-        if(repository.findCostumeByName(nazov).isPresent())
+        if(repository.findCostumeByName(name).isPresent())
             exists = true;
 
         assertThat(exists).isTrue();
     }
 
     @Test
-    void no_kostym_with_name()
+    void noCostumeWithName()
     {
-        String nazov = "hreben";
+        String name = "hreben";
 
         boolean exists = false;
-        if(repository.findCostumeByName(nazov).isPresent())
+        if(repository.findCostumeByName(name).isPresent())
             exists = true;
 
         assertThat(exists).isFalse();
     }
 
     @Test
-    void kostymy_by_material()
+    void CostumeByMaterial()
     {
         String material = "saten";
 

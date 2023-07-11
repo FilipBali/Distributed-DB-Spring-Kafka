@@ -1,8 +1,8 @@
-package com.pdb_db.pdb_proj.tests.recenzia;
+package com.pdb_db.pdb_proj.tests.review;
 
-import com.pdb_db.pdb_proj.domain.accessory_review.AccessoryReview;
-import com.pdb_db.pdb_proj.domain.accessory_review.AccessoryReviewRepository;
-import com.pdb_db.pdb_proj.domain.accessory_review.AccessoryReviewService;
+import com.pdb_db.pdb_proj.domain.costume_review.CostumeReview;
+import com.pdb_db.pdb_proj.domain.costume_review.CostumeReviewRepository;
+import com.pdb_db.pdb_proj.domain.costume_review.CostumeReviewService;
 import org.junit.jupiter.api.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -12,21 +12,28 @@ import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 @SpringBootTest
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
-public class AccessoryRecenziaTest
+public class CostumeReviewTest
 {
-    @Autowired
-    private AccessoryReviewRepository repository;
 
     @Autowired
-    private AccessoryReviewService service;
+    private CostumeReviewRepository repository;
+
+    @Autowired
+    private CostumeReviewService service;
 
 
     @Test
     @Order(1)
-    void create_review()
+    void createReview()
     {
-        AccessoryReview r = new AccessoryReview("Strasne super","Na jednotku",0,0,1,1);
-        service.addNewAccessoryReview(r);
+        CostumeReview r = new CostumeReview(
+                "Strasne super",
+                "Na jednotku",
+                0,
+                0,
+                1,
+                1);
+        service.addNewCostumeReview(r);
 
         boolean exists = false;
         if(repository.findById(r.getId()).isPresent())
@@ -37,7 +44,7 @@ public class AccessoryRecenziaTest
 
     @Test
     @Order(2)
-    void add_like_to_review ()
+    void addLikeToReview()
     {
         Integer id =3;
 
@@ -47,19 +54,29 @@ public class AccessoryRecenziaTest
 
         assertThat(exists).isTrue();
 
-        AccessoryReview r = repository.findById(id).get();
-        service.updateAccessoryReview(id,null,null,1,null,null,null);
+        CostumeReview r = repository.findById(id).get();
+        service.updateCostumeReview(
+                id,
+                null,
+                null,
+                1,
+                null,
+                null,
+                null);
 
         r = repository.findById(id).get();
-        assertThat(r.getLike_reaction().equals(1)).isTrue();
-        assertThat(r.getDislike_reaction().equals(0)).isTrue();
+        System.err.println(r.getLike_reaction());
+
+        assertThat(r.getLike_reaction() == 1).isTrue();
+        assertThat(r.getDislike_reaction() == 0).isTrue();
+
     }
 
     @Test
     @Order(3)
-    void clear_like_to_review()
+    void clearLikeInReview()
     {
-        Integer id =3;
+        Integer id =1;
 
         boolean exists = false;
         if(repository.findById(id).isPresent())
@@ -67,19 +84,25 @@ public class AccessoryRecenziaTest
 
         assertThat(exists).isTrue();
 
-        AccessoryReview r = repository.findById(id).get();
-        service.updateAccessoryReview(id,null,null,0,null,null,null);
+        CostumeReview r = repository.findById(id).get();
+        service.updateCostumeReview(
+                id,
+                null,
+                null,
+                0,
+                null,
+                null,
+                null);
 
         r = repository.findById(id).get();
-        assertThat(r.getLike_reaction().equals(0)).isTrue();
-        assertThat(r.getDislike_reaction().equals(0)).isTrue();
+        assertThat(r.getLike_reaction() == 0).isTrue();
     }
 
     @Test
     @Order(4)
-    void update_review()
+    void updateReview()
     {
-        Integer id =3;
+        Integer id = 1;
         String popis = "novy popis";
 
         boolean exists = false;
@@ -88,19 +111,20 @@ public class AccessoryRecenziaTest
 
         assertThat(exists).isTrue();
 
-        AccessoryReview r = repository.findById(id).get();
-        service.updateAccessoryReview(id,null,popis,null,3,null,null);
+        CostumeReview r = repository.findById(id).get();
+        service.updateCostumeReview(id,null,popis,null,3,null,null);
 
         r = repository.findById(id).get();
         assertThat(r.getDescription().equals(popis)).isTrue();
         assertThat(r.getDescription().equals("Na jednotku")).isFalse();
     }
 
+
     @Test
     @Order(5)
-    void delete_review()
+    void deleteReview()
     {
-        Integer id =3;
+        Integer id =1;
 
         boolean exists = false;
         if(repository.findById(id).isPresent())
@@ -108,12 +132,12 @@ public class AccessoryRecenziaTest
 
         assertThat(exists).isTrue();
 
-        service.deleteAccessoryReview(id);
+        service.deleteCostumeReview(id);
 
         exists = false;
         if(repository.findById(id).isPresent())
             exists = true;
         assertThat(exists).isFalse();
-    }
 
+    }
 }
